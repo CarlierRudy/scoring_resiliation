@@ -5,7 +5,7 @@ automobile résilie son contrat, à partir de son profil (âge, prime, sinistral
 type de contrat…). Construite dans le cadre de la formation *Machine Learning &
 Data Science* (Jour 3 — du dataset au modèle déployé).
 
-**Démo en ligne :** https://votre-nom-scoring.streamlit.app *(à remplacer après déploiement)*
+**Démo en ligne :** https://scoring-resiliation-rfc.streamlit.app
 
 ## Le modèle
 
