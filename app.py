@@ -14,7 +14,7 @@ import streamlit as st
 
 st.set_page_config(page_title="AssurAuto | Scoring", page_icon="AA", layout="wide")
 
-SEUIL_RISQUE = 0.55
+SEUIL_RISQUE = 0.50
 SEUIL_MODERE = 0.40
 
 st.markdown(
