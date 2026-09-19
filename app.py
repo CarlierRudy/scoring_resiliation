@@ -164,13 +164,26 @@ def render_sidebar():
             client["Dernier Sinistre"] = st.selectbox("Dernier sinistre", cats["Dernier Sinistre"])
             client["Score Risque (0-100)"] = curseur("Score Risque (0-100)", 1.0, "%d", "Score risque (0-100)")
 
-        seuil_perso = st.slider("Seuil d'alerte", min_value=0.30, max_value=0.70, value=SEUIL_RISQUE, step=0.01, format="%.0f%%", help="Un seuil plus bas détecte davantage de clients potentiellement résiliants, au prix de plus de fausses alertes.")
         lancer_scoring = st.form_submit_button("Analyser le client", type="primary", width="stretch")
+
+    seuil_perso = st.sidebar.slider(
+        "Seuil d'alerte",
+        min_value=0.30,
+        max_value=0.70,
+        value=st.session_state.get("seuil", SEUIL_RISQUE),
+        step=0.01,
+        format="%.0f%%",
+        help="Un seuil plus bas détecte davantage de clients potentiellement résiliants, au prix de plus de fausses alertes.",
+    )
+    st.sidebar.caption(
+        f"Les scores supérieurs ou égaux à {seuil_perso:.0%} déclenchent une alerte de rétention."
+    )
 
     if lancer_scoring:
         st.session_state["client"] = client
-        st.session_state["seuil"] = seuil_perso
         st.session_state["score_demande"] = True
+    if st.session_state.get("score_demande"):
+        st.session_state["seuil"] = seuil_perso
 
 
 def render_kpi_cards():
@@ -309,18 +322,10 @@ def render_batch_scoring():
 
 
 def render_footer():
-    st.markdown('<div class="footer"><span>Scoring individuel - Outil d’aide à l’analyse — il complète l’analyse du conseiller et ne la remplace pas.</span><span>Random Forest · Scikit-learn · Streamlit</span></div>', unsafe_allow_html=True)
-    st.markdown('<div style="height:1.5rem"></div>', unsafe_allow_html=True)
-    st.markdown('<div style="text-align:center; font-size:.75rem; color:#64748B">© 2026 AssurAuto. Tous droits réservés.</div>', unsafe_allow_html=True)
-    st.markdown('<div style="height:1.5rem"></div>', unsafe_allow_html=True)
-    st.markdown('<div style="text-align:center; font-size:.75rem; color:#64748B">Version 2.4.1</div>', unsafe_allow_html=True)
-    st.markdown('<div style="height:1.5rem"></div>', unsafe_allow_html=True)
-    st.markdown('<div style="text-align:center; font-size:.75rem; color:#64748B">Développé par Rudy Carlier F.</div>', unsafe_allow_html=True)
-    st.markdown('<div style="height:1.5rem"></div>', unsafe_allow_html=True)
-    st.markdown('<div style="text-align:center; font-size:.75rem; color:#64748B">Pour toute question ou suggestion, contactez <a href="mailto:rudycarlierfba@gmail.com">rudycarlierfba@gmail.com</a></div>', unsafe_allow_html=True)
-    st.markdown('<div style="height:1.5rem"></div>', unsafe_allow_html=True)
-    st.markdown('<div style="text-align:center; font-size:.75rem; color:#64748B">Dernière mise à jour : 19 Septembre 2026</div>', unsafe_allow_html=True)
-    st.markdown('<div style="height:1.5rem"></div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="footer"><span>Scoring individuel · Outil d’aide à l’analyse — il complète l’analyse du conseiller et ne la remplace pas.</span><span>Random Forest · Scikit-learn · Streamlit</span></div>',
+        unsafe_allow_html=True,
+    )
 
 
 
